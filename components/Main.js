@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
+import MonthSelecter from "./MonthSelecter";
 
 const styles = {
   body: {
@@ -11,7 +12,7 @@ export default class Main extends Component {
   render() {
     return (
       <View style={styles.body}>
-        <Text>Here is the main page.</Text>
+        <MonthSelecter />
       </View>
     );
   }
