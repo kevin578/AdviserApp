@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import { Icon } from "react-native-elements";
 import Touchable from "react-native-platform-touchable";
 import * as actions from "../actions";
+import { months } from "../monthsArray";
+import MonthSelecter from "./MonthSelecter";
 
 const monthContainerHeight = 100;
 
@@ -39,23 +41,32 @@ const styles = StyleSheet.create({
 });
 
 class MonthDisplay extends Component {
-  touchButton = () => {
-    console.log("clicked");
+  prevMonth = () => {
+    const {month, setCurrentMonth} = this.props;
+    const { currentMonth } = month;
+    setCurrentMonth(currentMonth - 1);
   };
 
+  nextMonth = ()=> {
+    const {month, setCurrentMonth} = this.props;
+    const { currentMonth } = month;
+    setCurrentMonth(currentMonth + 1);
+  }
+  
   render() {
-      const { month } = this.props;
+      const {month} = this.props;
+      const { currentMonth } = month;
     return (
       <View style={styles.MonthDisplayContainer}>
-        <Touchable onPress={this.touchButton}>
+        <Touchable onPress={this.prevMonth}>
           <View style={styles.arrowContainer}>
             <Icon name="arrow-back" />
           </View>
         </Touchable>
         <View style={styles.monthContainer}>
-          <Text style={styles.monthText}>{month.currentMonth}</Text>
+          <Text style={styles.monthText}>{months[currentMonth].name}</Text>
         </View>
-        <Touchable>
+        <Touchable onPress={this.nextMonth}>
           <View style={styles.arrowContainer}>
             <Icon name="arrow-forward" />
           </View>
