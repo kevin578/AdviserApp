@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 import userReducer from './userReducer';
+import monthReducer from './monthReducer';
 
 export default combineReducers({
-    user: userReducer
+    user: userReducer,
+    month: monthReducer
 });

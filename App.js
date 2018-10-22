@@ -21,14 +21,10 @@ export default class App extends React.Component {
         <Router>
           <Scene key="root" hideNavBar>
             <Scene key="StartBucket">
-              <Scene key="Year" component={YearForm} Title="Year" initial />
+              <Scene key="Year" component={YearForm} Title="Year" />
             </Scene>
-            <Scene key="MainBucket">
-              <Scene
-                key="Main"
-                component={Main}
-                title="Main"
-              />
+            <Scene key="MainBucket" initial>
+              <Scene key="Main" component={Main} title="Main" />
             </Scene>
           </Scene>
         </Router>

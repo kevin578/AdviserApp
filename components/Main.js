@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { View, Text, FlatList } from "react-native";
 import MonthSelecter from "./MonthSelecter";
+import MonthDisplay from "./MonthDisplay";
 
 const styles = {
   body: {
-    padding: 60
+
   }
 };
 
@@ -13,6 +14,7 @@ export default class Main extends Component {
     return (
       <View style={styles.body}>
         <MonthSelecter />
+        <MonthDisplay />
       </View>
     );
   }
