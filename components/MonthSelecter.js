@@ -56,10 +56,13 @@ class MonthSelecter extends Component {
   };
 
   componentDidMount() {
-    const { setCurrentMonth } = this.props;
+    const { setCurrentMonth, month } = this.props;
+    const { currentMonth } = month;
     const { width } = Dimensions.get("window");
     this.setState({ width });
-    setCurrentMonth(0);
+    setCurrentMonth(18);
+    this.carousel.snapToItem(currentMonth);
+    console.log(new Date().getFullYear());
   }
 
   renderItem = ({ item, index }) => {
@@ -77,13 +80,12 @@ class MonthSelecter extends Component {
     setCurrentMonth(event);
   };
 
-
-  nextMonth = ()=> {
-    const {month, setCurrentMonth} = this.props;
+  nextMonth = () => {
+    const { month, setCurrentMonth } = this.props;
     const { currentMonth } = month;
     setCurrentMonth(currentMonth + 1);
     this.carousel.snapToItem(currentMonth + 1);
-  }
+  };
 
   prevMonth = () => {
     const { month, setCurrentMonth } = this.props;
