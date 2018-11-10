@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
     flexDirection: "row",
     justifyContent: "space-around",
-    bottom: monthContainerHeight / 2
+    bottom: monthContainerHeight / 2,
+    zIndex: 0
   },
   monthContainer: {
     width: 130,

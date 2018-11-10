@@ -6,6 +6,7 @@ import Touchable from "react-native-platform-touchable";
 import Carousel from "react-native-snap-carousel";
 import * as actions from "../actions";
 import { months } from "../monthsArray";
+import SideMenu from "./SideMenu";
 
 const monthContainerHeight = 100;
 
@@ -56,13 +57,15 @@ class MonthSelecter extends Component {
   };
 
   componentDidMount() {
-    const { setCurrentMonth, month } = this.props;
+    const { month } = this.props;
     const { currentMonth } = month;
     const { width } = Dimensions.get("window");
     this.setState({ width });
-    setCurrentMonth(18);
     this.carousel.snapToItem(currentMonth);
-    console.log(new Date().getFullYear());
+  }
+
+  getMonth = ()=> {
+    this.props.setCurrentMonth(18);
   }
 
   renderItem = ({ item, index }) => {
