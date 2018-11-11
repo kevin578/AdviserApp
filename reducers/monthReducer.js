@@ -1,5 +1,5 @@
 const defaultState = {
-  currentMonth: 0
+  currentMonth: 3
 };
 
 export default function monthReducer(state = defaultState, action) {

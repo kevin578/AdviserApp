@@ -6,10 +6,9 @@ import * as actions from "../actions";
 
 const styles = StyleSheet.create({
   checkboxContainerStyle: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     borderWidth: 0,
     paddingLeft: 20,
-    marginTop: 20
   },
   checkboxTextStyle: {
     fontSize: 18
@@ -33,7 +32,7 @@ class YearCheckbox extends Component {
     return (
       <CheckBox
         title={year}
-        checkedColor="blue"
+        checkedColor="#337ab7"
         checked={user.year === year}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"

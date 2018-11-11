@@ -57,20 +57,14 @@ class MonthSelecter extends Component {
   };
 
   componentDidMount() {
-    const { month } = this.props;
-    const { currentMonth } = month;
     const { width } = Dimensions.get("window");
     this.setState({ width });
-    this.carousel.snapToItem(currentMonth);
   }
 
-  getMonth = ()=> {
-    this.props.setCurrentMonth(18);
-  }
+
 
   renderItem = ({ item, index }) => {
     const { name, backgroundColor } = item;
-    const { setCurrentMonth } = this.props;
     return (
       <View
         style={StyleSheet.flatten([styles.container, { backgroundColor }])}
@@ -87,14 +81,14 @@ class MonthSelecter extends Component {
     const { month, setCurrentMonth } = this.props;
     const { currentMonth } = month;
     setCurrentMonth(currentMonth + 1);
-    this.carousel.snapToItem(currentMonth + 1);
+    this.carousel.snapToNext();
   };
 
   prevMonth = () => {
     const { month, setCurrentMonth } = this.props;
     const { currentMonth } = month;
     setCurrentMonth(currentMonth - 1);
-    this.carousel.snapToItem(currentMonth - 1);
+    this.carousel.snapToPrev();
   };
 
   render() {
@@ -104,15 +98,19 @@ class MonthSelecter extends Component {
     return (
       <View>
         <Carousel
+          
           ref={c => {
             this.carousel = c;
           }}
           data={months}
-          onBeforeSnapToItem={this.onScroll}
+          onSnapToItem={this.onScroll}
           renderItem={this.renderItem}
           sliderWidth={width}
           itemWidth={width}
+          firstItem={currentMonth}
+          
         />
+
 
         <View style={styles.MonthDisplayContainer}>
           <Touchable onPress={this.prevMonth}>
