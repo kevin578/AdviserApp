@@ -1,4 +1,4 @@
-const year = [
+export const months = [
   {
     name: "August",
     backgroundColor: "#f96b6b"
@@ -48,5 +48,3 @@ const year = [
     backgroundColor: "#e5d044"
   }
 ];
-
-export const months = year.concat(year, year, year);

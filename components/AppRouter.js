@@ -10,8 +10,9 @@ import SideMenu from "./SideMenu";
 const styles = StyleSheet.create({
   container: {},
   menuButton: {
-    width: 25,
-    height: 25
+    padding: 15,
+    width: 30,
+    height: 30
   }
 });
 
@@ -20,7 +21,7 @@ export default class AppRouter extends React.Component {
     return (
       <Router>
         <Scene key="root" hideNavBar>
-          <Scene key="StartBucket" initial>
+          <Scene key="StartBucket">
             <Scene key="Year" component={YearForm} Title="Year" />
           </Scene>
 
@@ -30,6 +31,7 @@ export default class AppRouter extends React.Component {
             drawerImage={hamburgerIcon}
             contentComponent={SideMenu}
             style={styles.drawer}
+            initial
           >
             <Scene
               key="Main"

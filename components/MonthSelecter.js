@@ -19,9 +19,20 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 75,
-    width: 100,
+    width: 120,
     height: 75
   },
+
+  monthText: {
+    fontSize: 18,
+    fontWeight: "600"
+  },
+
+  yearText: {
+    fontSize: 12,
+    paddingTop: 5
+  },
+
   MonthDisplayContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -48,6 +59,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center"
+  },
+
+  hideArrowContainer: {
+    opacity: 0
   }
 });
 
@@ -57,11 +72,21 @@ class MonthSelecter extends Component {
   };
 
   componentDidMount() {
+    const { props } = this;
     const { width } = Dimensions.get("window");
     this.setState({ width });
+    if (!props.month.currentMonth) {
+      const currentDate = new Date();
+      const month = this.convertMonth(currentDate.getMonth());
+      props.setCurrentMonth(month);
+    }
+
   }
 
-
+  convertMonth = realMonth => {
+    const appMonths = [null, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5];
+    return appMonths[realMonth];
+  };
 
   renderItem = ({ item, index }) => {
     const { name, backgroundColor } = item;
@@ -72,6 +97,18 @@ class MonthSelecter extends Component {
     );
   };
 
+  getArrowStyle = arrow => {
+    const { month } = this.props;
+    const { currentMonth } = month;
+    if (arrow === "left" && currentMonth < 1) {
+      return StyleSheet.flatten([styles.hideArrowContainer]);
+    }
+    if (arrow === "right" && currentMonth > 10) {
+      return StyleSheet.flatten([styles.hideArrowContainer]);
+    }
+    return {};
+  };
+
   onScroll = event => {
     const { setCurrentMonth } = this.props;
     setCurrentMonth(event);
@@ -80,25 +117,28 @@ class MonthSelecter extends Component {
   nextMonth = () => {
     const { month, setCurrentMonth } = this.props;
     const { currentMonth } = month;
-    setCurrentMonth(currentMonth + 1);
-    this.carousel.snapToNext();
+    if (currentMonth < 11) {
+      setCurrentMonth(currentMonth + 1);
+      this.carousel.snapToNext();
+    }
   };
 
   prevMonth = () => {
     const { month, setCurrentMonth } = this.props;
     const { currentMonth } = month;
-    setCurrentMonth(currentMonth - 1);
-    this.carousel.snapToPrev();
+    if (currentMonth > 0) {
+      setCurrentMonth(currentMonth - 1);
+      this.carousel.snapToPrev();
+    }
   };
 
   render() {
-    const { month } = this.props;
+    const { month, user } = this.props;
     const { currentMonth } = month;
     const { width } = this.state;
     return (
       <View>
         <Carousel
-          
           ref={c => {
             this.carousel = c;
           }}
@@ -108,20 +148,25 @@ class MonthSelecter extends Component {
           sliderWidth={width}
           itemWidth={width}
           firstItem={currentMonth}
-          
         />
 
-
         <View style={styles.MonthDisplayContainer}>
-          <Touchable onPress={this.prevMonth}>
+          <Touchable
+            onPress={this.prevMonth}
+            style={this.getArrowStyle("left")}
+          >
             <View style={styles.arrowContainer}>
               <Icon name="arrow-back" />
             </View>
           </Touchable>
           <View style={styles.monthContainer}>
             <Text style={styles.monthText}>{months[currentMonth].name}</Text>
+            <Text style={styles.yearText}>{user.year} Year</Text>
           </View>
-          <Touchable onPress={this.nextMonth}>
+          <Touchable
+            onPress={this.nextMonth}
+            style={this.getArrowStyle("right")}
+          >
             <View style={styles.arrowContainer}>
               <Icon name="arrow-forward" />
             </View>
@@ -134,7 +179,8 @@ class MonthSelecter extends Component {
 
 function mapStateToProps(state) {
   return {
-    month: state.month
+    month: state.month,
+    user: state.user
   };
 }
 

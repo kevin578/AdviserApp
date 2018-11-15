@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
+import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import Touchable from "react-native-platform-touchable";
 import YearCheckbox from "./YearCheckbox";
+import * as actions from "../actions";
 
 const styles = StyleSheet.create({
   title: {
@@ -29,21 +31,39 @@ const styles = StyleSheet.create({
     width: "80%",
     justifyContent: "center",
     alignItems: "center"
+  },
+
+  buttonDisabled: {
+    opacity: .3
   }
+
 });
 
-export default class YearForm extends Component {
-
-  getButtonText = ()=> {
-    const {props} = this;
+class YearForm extends Component {
+  getButtonText = () => {
+    const { props } = this;
     if (props.updateTitle) {
       return "Update";
     }
-    return "Next"
+    return "Next";
+  };
+
+  getButtonStyle = () => {
+    const {props} = this;
+    if(props.user.formYear) {
+      return styles.button;
+    }
+    return StyleSheet.flatten([styles.button, styles.buttonDisabled]);
   }
 
+  buttonPress = () => {
+    const { props } = this;
+    props.setUserYear(props.user.formYear);
+    Actions.MainBucket();
+  };
+
   render() {
-    const  { getButtonText } = this;
+    const { getButtonText, props } = this;
     return (
       <View>
         <Text style={styles.title}>Select Your Year</Text>
@@ -53,9 +73,10 @@ export default class YearForm extends Component {
         <YearCheckbox year="Senior" />
         <View style={styles.buttonContainer}>
           <Touchable
-            onPress={() => Actions.MainBucket()}
-            style={styles.button}
+            onPress={() => this.buttonPress()}
+            style={this.getButtonStyle()}
             accessibilityLabel="Button to confirm year"
+            disabled={!(props.user.formYear)}
           >
             <Text style={styles.buttonText}>{getButtonText()}</Text>
           </Touchable>
@@ -64,3 +85,14 @@ export default class YearForm extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  actions
+)(YearForm);

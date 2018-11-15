@@ -16,13 +16,14 @@ const styles = StyleSheet.create({
 });
 
 class YearCheckbox extends Component {
+
   checkboxPress = year => {
-    const { user, clearUserYear, setUserYear } = this.props;
+    const { user, clearUserFormYear, setUserFormYear } = this.props;
     const existingYear = user.year;
     if (existingYear === year) {
-      clearUserYear();
+      clearUserFormYear();
     } else {
-      setUserYear(year);
+      setUserFormYear(year);
     }
   };
 
@@ -33,7 +34,7 @@ class YearCheckbox extends Component {
       <CheckBox
         title={year}
         checkedColor="#337ab7"
-        checked={user.year === year}
+        checked={user.formYear === year}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         onPress={() => this.checkboxPress(year)}
