@@ -6,6 +6,7 @@ import YearForm from "./YearForm";
 import hamburgerIcon from "../assets/hamburger.png";
 import Main from "./Main";
 import SideMenu from "./SideMenu";
+import ItemView from "./ItemView";
 
 const styles = StyleSheet.create({
   container: {},
@@ -46,6 +47,7 @@ export default class AppRouter extends React.Component {
               leftButtonIconStyle={styles.menuButton}
               updateTitle
             />
+            <Scene key="itemView" component={ItemView} back />
           </Scene>
         </Scene>
       </Router>

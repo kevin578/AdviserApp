@@ -1,6 +1,7 @@
 const defaultState = {
     menuIsOpen: false,
-    content: []
+    content: [],
+    itemHtml: {}
 }
 
 export default function applicationReducer(state = defaultState, action) {
@@ -9,6 +10,8 @@ export default function applicationReducer(state = defaultState, action) {
             return {...state, menuIsOpen: action.payload}
         case "LOAD_CONTENT":
             return {...state, content: action.payload}
+        case "SET_ITEM_HTML":
+            return {...state, itemHtml: action.payload}
         default:
             return state;
     }

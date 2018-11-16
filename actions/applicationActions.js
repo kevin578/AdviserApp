@@ -1,5 +1,3 @@
-
-
 export function toggleMenu(bool) {
     return {
         type: "TOGGLE_MENU",
@@ -12,5 +10,11 @@ export function loadContent(content) {
         type: "LOAD_CONTENT",
         payload: content
     }
+}
 
+export function setItemHtml(html) {
+    return {
+        type: "SET_ITEM_HTML",
+        payload: html
+    }
 }

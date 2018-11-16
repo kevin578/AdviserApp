@@ -26,6 +26,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
     "react-native-elements": "^0.19.1",
     "react-native-fontawesome": "^5.7.0",
+    "react-native-htmlview": "^0.13.0",
     "react-native-platform-touchable": "^1.1.1",
     "react-native-router-flux": "^4.0.5",
     "react-native-side-menu": "^1.1.3",

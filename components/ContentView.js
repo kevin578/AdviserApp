@@ -22,12 +22,12 @@ const months = [
 ];
 
 const styles = {
-    container: {
-        paddingBottom: 300,
-        position: "relative",
-        bottom: 20,
-    }
-}
+  container: {
+    paddingBottom: 250,
+    position: "relative",
+    bottom: 20
+  }
+};
 
 class ContentView extends Component {
   componentDidMount() {
@@ -74,15 +74,21 @@ class ContentView extends Component {
   };
 
   renderItem = item => {
-    const { title, excerpt } = item.item;
-    return <MainCard title={title.rendered} excerpt={excerpt.rendered.slice(3, 140)} />;
+    const { title, excerpt, content } = item.item;
+    return (
+      <MainCard
+        title={title.rendered}
+        excerpt={excerpt.rendered.slice(3, 140)}
+        html={content.rendered}
+      />
+    );
   };
 
   render() {
     this.filterContent();
     const { props } = this;
     return (
-      <View style = {styles.container}>
+      <View style={styles.container}>
         <FlatList
           data={this.filterContent()}
           renderItem={this.renderItem}
