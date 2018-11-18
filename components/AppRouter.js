@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
 
 export default class AppRouter extends React.Component {
   render() {
+    const { year } = this.props;
     return (
       <Router>
         <Scene key="root" hideNavBar>
@@ -32,7 +33,7 @@ export default class AppRouter extends React.Component {
             drawerImage={hamburgerIcon}
             contentComponent={SideMenu}
             style={styles.drawer}
-            initial
+            initial={year}
           >
             <Scene
               key="Main"

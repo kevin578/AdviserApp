@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Text, Dimensions, Platform } from "react-native";
 import { Icon } from "react-native-elements";
 import Touchable from "react-native-platform-touchable";
 import Carousel from "react-native-snap-carousel";
 import * as actions from "../actions";
 import { months } from "../monthsArray";
 import SideMenu from "./SideMenu";
+
 
 const monthContainerHeight = 100;
 
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
 
   hideArrowContainer: {
-    opacity: 0
+    opacity: .0
   }
 });
 
@@ -100,6 +101,7 @@ class MonthSelecter extends Component {
   getArrowStyle = arrow => {
     const { month } = this.props;
     const { currentMonth } = month;
+    if (Platform.OS === 'ios') return;
     if (arrow === "left" && currentMonth < 1) {
       return StyleSheet.flatten([styles.hideArrowContainer]);
     }
@@ -150,6 +152,7 @@ class MonthSelecter extends Component {
           firstItem={currentMonth}
         />
 
+        
         <View style={styles.MonthDisplayContainer}>
           <Touchable
             onPress={this.prevMonth}

@@ -6,7 +6,6 @@ export const defaultState = {
 
 export default function userReducer(state = defaultState, action) {
   switch (action.type) {
-
     case "SET_GRADUATION_YEAR":
       return {...state , graduationYear: action.payload}
     case "SET_USER_YEAR":

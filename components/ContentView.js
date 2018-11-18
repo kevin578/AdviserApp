@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, FlatList } from "react-native";
+import { Text, View, FlatList, ActivityIndicator } from "react-native";
 import axios from "axios";
 import { connect } from "react-redux";
+import { Actions } from "react-native-router-flux";
 import _ from "lodash";
 import * as actions from "../actions";
 import MainCard from "./MainCard";
@@ -24,17 +25,34 @@ const months = [
 const styles = {
   container: {
     paddingBottom: 250,
-    position: "relative",
-    bottom: 20
+    position: "relative"
+  },
+
+  activityIndicator: {
+    position: "absolute",
+    alignSelf: "center",
+    top: -15,
+    zIndex: 99
   }
 };
 
 class ContentView extends Component {
+  state = {
+    isLoading: false,
+    isLoadingFlatList: false
+  };
+
   componentDidMount() {
     this.loadContent();
   }
 
-  loadContent = async () => {
+  loadContent = async (flatlist = false) => {
+    if (flatlist) {
+      this.setState({isLoadingFlatList: true})
+    }
+    else {
+      this.setState({ isLoading: true });
+    }
     const { props } = this;
     try {
       const content = await this.getData(1);
@@ -48,7 +66,9 @@ class ContentView extends Component {
         }
       }
       props.loadContent(await Promise.all(posts));
+      this.setState({ isLoading: false, isLoadingFlatList: false });
     } catch (err) {
+      this.setState({ isLoading: false, isLoadingFlatList: false });
       return err;
     }
   };
@@ -84,15 +104,25 @@ class ContentView extends Component {
     );
   };
 
+
+
+
   render() {
     this.filterContent();
-    const { props } = this;
+    const { props, state } = this;
     return (
       <View style={styles.container}>
+        <ActivityIndicator
+          size="large"
+          animating={state.isLoading}
+          style={styles.activityIndicator}
+        />
         <FlatList
           data={this.filterContent()}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString()}
+          refreshing={state.isLoadingFlatList}
+          onRefresh={() => this.loadContent(true)}
         />
       </View>
     );
