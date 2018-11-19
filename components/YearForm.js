@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import { Actions } from "react-native-router-flux";
 import Touchable from "react-native-platform-touchable";
@@ -59,6 +59,7 @@ class YearForm extends Component {
   buttonPress = () => {
     const { props } = this;
     props.setUserYear(props.user.formYear);
+    AsyncStorage.setItem('year', props.user.formYear);
     Actions.MainBucket();
   };
 

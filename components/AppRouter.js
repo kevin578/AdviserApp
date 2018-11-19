@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { createStore } from "redux";
+import { StyleSheet, Text, View, AsyncStorage } from "react-native";
+import { createStore, store } from "redux";
 import { Scene, Router, Drawer } from "react-native-router-flux";
 import YearForm from "./YearForm";
 import hamburgerIcon from "../assets/hamburger.png";
@@ -18,40 +18,61 @@ const styles = StyleSheet.create({
 });
 
 export default class AppRouter extends React.Component {
-  render() {
-    const { year } = this.props;
-    return (
-      <Router>
-        <Scene key="root" hideNavBar>
-          <Scene key="StartBucket">
-            <Scene key="Year" component={YearForm} Title="Year" />
-          </Scene>
+  state = {
+    isLoaded: false,
+    year: ""
+  }
 
-          <Scene
-            key="MainBucket"
-            drawer
-            drawerImage={hamburgerIcon}
-            contentComponent={SideMenu}
-            style={styles.drawer}
-            initial={year}
-          >
+  componentDidMount() {
+      AsyncStorage.getItem('year').then((year)=> {
+        this.setState({
+          isLoaded: true,
+          year
+        })
+      })
+      .catch((err)=> {
+        this.setState({isLoaded: true})
+      })
+  }
+
+  render() {
+    let { year } = this.props;
+    if (this.state.isLoaded) {
+      return (
+        <Router>
+          <Scene key="root" hideNavBar>
+            <Scene key="StartBucket">
+              <Scene key="Year" component={YearForm} Title="Year" />
+            </Scene>
+
             <Scene
-              key="Main"
-              component={Main}
-              title="Adviser App"
-              leftButtonIconStyle={styles.menuButton}
-            />
-            <Scene
-              key="changeYear"
-              component={YearForm}
-              title="Adviser App"
-              leftButtonIconStyle={styles.menuButton}
-              updateTitle
-            />
-            <Scene key="itemView" component={ItemView} back />
+              key="MainBucket"
+              drawer
+              drawerImage={hamburgerIcon}
+              contentComponent={SideMenu}
+              style={styles.drawer}
+              initial={this.state.year}
+            >
+              <Scene
+                key="Main"
+                component={Main}
+                title="Adviser App"
+                leftButtonIconStyle={styles.menuButton}
+              />
+              <Scene
+                key="changeYear"
+                component={YearForm}
+                title="Adviser App"
+                leftButtonIconStyle={styles.menuButton}
+                updateTitle
+              />
+              <Scene key="itemView" component={ItemView} back />
+            </Scene>
           </Scene>
-        </Scene>
-      </Router>
-    );
+        </Router>
+      );
+    } else {
+      return <View />;
+    }
   }
 }

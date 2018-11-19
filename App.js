@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Notifications } from "expo";
+import { StyleSheet, Text, View, Alert, AsyncStorage } from "react-native";
 import { createStore, connect } from "redux";
 import { Provider } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
@@ -10,6 +11,7 @@ import * as actions from "./actions";
 import AppRouter from "./components/AppRouter";
 import reducers from "./reducers";
 import SideMenu from "./components/SideMenu";
+import registerForNotifications from "./services/pushNotifications";
 
 const persistConfig = {
   key: "root",
@@ -28,12 +30,20 @@ const store = createStore(
 const persister = persistStore(store);
 
 export default class App extends React.Component {
+  componentDidMount() {
+    // registerForNotifications();
+    // Notifications.addListener(notification => {
+    //   const { data: { text }, origin } = notification;
+    //   if (origin === "received" && text)
+    //   Alert.alert("New Push Notifications", text, [{ text: "Ok." }]);
+    // });
+  }
+
   render() {
-    const { year } = store.getState().user;
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persister}>
-          <AppRouter year={year} />
+           <AppRouter year = {year}/>
         </PersistGate>
       </Provider>
     );
