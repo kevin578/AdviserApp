@@ -14,6 +14,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./assets/notificationIcon.png"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -21,7 +24,12 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.clarkuniversity.adviserapp",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.clarkuniversity.adviserapp",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }

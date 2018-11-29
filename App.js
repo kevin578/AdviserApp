@@ -31,19 +31,19 @@ const persister = persistStore(store);
 
 export default class App extends React.Component {
   componentDidMount() {
-    // registerForNotifications();
-    // Notifications.addListener(notification => {
-    //   const { data: { text }, origin } = notification;
-    //   if (origin === "received" && text)
-    //   Alert.alert("New Push Notifications", text, [{ text: "Ok." }]);
-    // });
+    registerForNotifications();
+    Notifications.addListener(notification => {
+      const { data: { text }, origin } = notification;
+      if (origin === "received" && text)
+      Alert.alert("New Push Notifications", text, [{ text: "Ok." }]);
+    });
   }
 
   render() {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persister}>
-           <AppRouter year = {year}/>
+          <AppRouter />
         </PersistGate>
       </Provider>
     );

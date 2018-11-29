@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "471040056755",
+    "firebase_url": "https://adviser-app-db669.firebaseio.com",
+    "project_id": "adviser-app-db669",
+    "storage_bucket": "adviser-app-db669.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471040056755:android:e352167bfe4331eb",
+        "android_client_info": {
+          "package_name": "com.clarkuniversity.adviserapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471040056755-b7gjthggi63vd89fkphpsnqmbqnit4v7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXMSO76YyuzcUdMpv-_NRH80rC6dVN12o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

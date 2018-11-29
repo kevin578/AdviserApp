@@ -22,6 +22,8 @@ const months = [
   "July"
 ];
 
+const realMonthKey = [5, 6, 7 ,8 ,9, 10, 11, 12, 0, 1, 2, 3 ,4]
+
 const styles = {
   container: {
     paddingBottom: 250,
@@ -56,13 +58,13 @@ class ContentView extends Component {
     const { props } = this;
     try {
       const content = await this.getData(1);
-      let posts = content.data;
+      let posts = [...content.data] ;
       const totalPages = content.headers["x-wp-totalpages"];
       if (totalPages > 1) {
         for (let i = 2; i <= totalPages; i += 1) {
           const newContent = this.getData(i);
 
-          posts = posts.concat(newContent.data);
+          posts = posts.push(...newContent.data);
         }
       }
       props.loadContent(await Promise.all(posts));
@@ -74,21 +76,40 @@ class ContentView extends Component {
   };
 
   getData = pageNumber =>
-    axios.get("http://adviserapp.local/wp-json/wp/v2/posts", {
+    axios.get("https://clarkcompass.com/wp-json/wp/v2/posts", {
       params: {
-        page: pageNumber,
+        page: 1,
         per_page: 99
       }
     });
 
   filterContent = () => {
+    const yearToCategoryID = {
+      Freshman: 10,
+      Sophmore: 7,
+      Junior: 8,
+      Senior: 9 
+    }
     const { props } = this;
-    const filteredForMonth = _.filter(props.application.content, {
-      content_month: months[props.month.currentMonth]
-    });
-    const filteredForYears = _.filter(filteredForMonth, "student_year");
+    const filteredForMonth = props.application.content.filter((item)=> {
+      if (!item) return false;
+      if (!item.date) return false;
+      const firstDigit = item.date[5];
+      const secondDigit = item.date[6]
+      const monthPublished =  firstDigit === "0" ? secondDigit : firstDigit + secondDigit;
+      if (realMonthKey[monthPublished] === props.month.currentMonth) {
+        return true;
+      }
+      return false;
+    })
+
+    // const filteredForMonth = _.filter(props.application.content, {
+    //   content_month: months[props.month.currentMonth]
+    // });
+
+    const filteredForYears = _.filter(filteredForMonth, "categories");
     const filteredContent = _.filter(filteredForYears, o =>
-      o.student_year.includes(props.user.year)
+      o.categories.includes(yearToCategoryID[props.user.year])
     );
     return filteredContent;
   };

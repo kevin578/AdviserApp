@@ -21,23 +21,24 @@ export default class AppRouter extends React.Component {
   state = {
     isLoaded: false,
     year: ""
-  }
+  };
 
   componentDidMount() {
-      AsyncStorage.getItem('year').then((year)=> {
+    AsyncStorage.getItem("year")
+      .then(year => {
         this.setState({
           isLoaded: true,
           year
-        })
+        });
       })
-      .catch((err)=> {
-        this.setState({isLoaded: true})
-      })
+      .catch(err => {
+        this.setState({ isLoaded: true });
+      });
   }
 
   render() {
-    let { year } = this.props;
-    if (this.state.isLoaded) {
+    const { state } = this;
+    if (state.isLoaded) {
       return (
         <Router>
           <Scene key="root" hideNavBar>
@@ -51,7 +52,7 @@ export default class AppRouter extends React.Component {
               drawerImage={hamburgerIcon}
               contentComponent={SideMenu}
               style={styles.drawer}
-              initial={this.state.year}
+              initial={state.year}
             >
               <Scene
                 key="Main"
@@ -71,8 +72,8 @@ export default class AppRouter extends React.Component {
           </Scene>
         </Router>
       );
-    } else {
-      return <View />;
     }
+
+    return <View />;
   }
 }

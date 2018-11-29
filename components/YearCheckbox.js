@@ -19,7 +19,7 @@ class YearCheckbox extends Component {
 
   checkboxPress = year => {
     const { user, clearUserFormYear, setUserFormYear } = this.props;
-    const existingYear = user.year;
+    const existingYear = user.formYear;
     if (existingYear === year) {
       clearUserFormYear();
     } else {
