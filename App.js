@@ -16,7 +16,7 @@ import registerForNotifications from "./services/pushNotifications";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["month"]
+  blacklist: ["month", "application"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
