@@ -22,7 +22,7 @@ const months = [
   "July"
 ];
 
-const realMonthKey = [5, 6, 7, 8, 9, 10, 11, 12, 0, 1, 2, 3, 4];
+const realMonthKey = [5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4];
 
 const styles = {
   container: {
@@ -38,7 +38,7 @@ const styles = {
   }
 };
 
-const NUMBER_OF_PAGES = 99;
+const ITEMS_PER_PAGE = 99;
 
 class ContentView extends Component {
   state = {
@@ -58,7 +58,7 @@ class ContentView extends Component {
       "https://clarkcompass.com/wp-json/wp/v2/posts",
       {
         params: {
-          per_page: NUMBER_OF_PAGES
+          per_page: ITEMS_PER_PAGE
         }
       }
     );
@@ -71,7 +71,7 @@ class ContentView extends Component {
         .get("https://clarkcompass.com/wp-json/wp/v2/posts", {
           params: {
             page: pageNumber,
-            per_page: NUMBER_OF_PAGES
+            per_page: ITEMS_PER_PAGE
           }
         })
         .then(posts => resolve(posts.data))
@@ -110,28 +110,43 @@ class ContentView extends Component {
       Senior: 9
     };
     const { props } = this;
+    
     const filteredForMonth = props.application.content.filter(item => {
       if (!item) return false;
       if (!item.date) return false;
+      if (item.month === months[props.month.currentMonth]) {
+        return true;
+      }
       const firstDigit = item.date[5];
       const secondDigit = item.date[6];
       const monthPublished =
         firstDigit === "0" ? secondDigit : firstDigit + secondDigit;
-      if (realMonthKey[monthPublished] === props.month.currentMonth) {
+      if (realMonthKey[monthPublished - 1] === props.month.currentMonth && item.month === null) {
         return true;
       }
       return false;
     });
 
+    const checkForHiddenItems = filteredForMonth.filter(item => {
+      if (item.hide_from_app === "1") return false;
+      return true;
+    });
     // const filteredForMonth = _.filter(props.application.content, {
     //   content_month: months[props.month.currentMonth]
     // });
 
-    const filteredForYears = _.filter(filteredForMonth, "categories");
-    const filteredContent = _.filter(filteredForYears, o =>
+    const filteredForYears = _.filter(checkForHiddenItems, "categories");
+
+    const orderedItems = filteredForYears.sort((a,b) => {
+      if (a.order > b.order) return -1;
+      if (b.order > a.order) return 1;
+      return 0;
+    })
+
+    const filteredContent = _.filter(orderedItems, o =>
       o.categories.includes(yearToCategoryID[props.user.year])
     );
-    this.setState({filteredContent});
+    return filteredContent;
   };
 
   renderItem = item => {
@@ -155,7 +170,7 @@ class ContentView extends Component {
           style={styles.activityIndicator}
         />
         <FlatList
-          data={this.state.filteredContent}
+          data={this.filterContent()}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString()}
           refreshing={state.isLoadingFlatList}

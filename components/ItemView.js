@@ -5,7 +5,7 @@ import HTML from "react-native-render-html";
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10
+    padding: 20
   },
   p: {
     backgroundColor: "green",
